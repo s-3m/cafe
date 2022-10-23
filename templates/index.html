@@ -6,17 +6,28 @@
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <script src="https://kit.fontawesome.com/3fc7777404.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
 <!-- partial:index.partial.html -->
 <div class="container">
+
 	<div class="screen">
+{#        {% for err, msg in get_flashed_messages(True) %}#}
+{#            <div class="flash {{ err }}">{{ msg }}</div>#}
+{#        {% endfor %}#}
 		<div class="screen__content">
 			<form class="login" method="post">
 				<div class="login__field">
 					<i class="login__icon fas fa-user"></i>
-					<input type="text" class="login__input" name="username" placeholder="Введите ваш логин">
+                        {% if get_flashed_messages() %}
+                            {% for err, msg in get_flashed_messages(True) %}
+					            <input type="text" class="login__input {{ err }}" name="username" placeholder="{{msg}}">
+                            {% endfor %}
+                        {% else %}
+                            <input type="text" class="login__input" name="username" placeholder="Введите ваш логин">
+                        {% endif %}
 				</div>
 				<div class="login__field">
 					<i class="login__icon fas fa-lock"></i>

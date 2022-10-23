@@ -2,7 +2,10 @@ from flask import Flask, render_template, request, flash
 
 from db import get_db_connect
 from models.model import Staff
+
 app = Flask(__name__)
+app.secret_key = 'jfkdjfhsdkjfhskjdfh'
+sess = get_db_connect()
 
 
 @app.route("/", methods=["GET", "POST"])
