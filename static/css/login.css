@@ -13,6 +13,7 @@ body {
 
 .container {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	min-height: 100vh;
@@ -111,6 +112,12 @@ body {
 	width: 75%;
 	transition: .2s;
 }
+.login__input.error::placeholder {
+	color: red;
+}
+.login__input:focus::-webkit-input-placeholder {
+  color: transparent
+}
 
 .login__input:active,
 .login__input:focus,
@@ -176,3 +183,16 @@ body {
 .social-login__icon:hover {
 	transform: scale(1.5);	
 }
+
+/*.flash {*/
+/*	width: 250px;*/
+/*	text-align: center;*/
+/*	margin-bottom: 10px;*/
+/*}*/
+/*.flash.error {*/
+/*	background-color: lightcoral;*/
+/*	z-index: 999;*/
+/*    top: 250px;*/
+/*    left: 50px;*/
+/*    position: relative;*/
+/*}*/
