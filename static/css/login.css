@@ -184,6 +184,14 @@ body {
 	transform: scale(1.5);	
 }
 
+.flash_message {margin: 10px;}
+.flash_message.error {
+	border: 1px solid #FF4343;
+	background: #FF9C9C;
+	width: 360px;
+    text-align: center;
+}
+
 /*.flash {*/
 /*	width: 250px;*/
 /*	text-align: center;*/
