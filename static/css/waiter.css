@@ -10,13 +10,21 @@
 
 .wrapper {
     min-height: 100vh;
-	padding: 35px;
+	overflow: hidden;
 	font-family: "Montserrat", sans-serif;
+	display: flex;
+	flex-direction: column;
+}
+
+.container {
+	max-width: 1460px;
+	margin: 0 auto;
 }
 
 .section_inner {
-	max-width: 1170px;
-	margin: 0 auto;
+	/*max-width: 1170px;*/
+	/*margin: 0 auto;*/
+	flex: 1 1 auto;
 }
 
 .content_wrapp {
@@ -47,4 +55,16 @@
 	width: 31%;
 	min-width: 200px;
 	margin-left: 15px;
+}
+
+.footer {
+	display: flex;
+	height: 50px;
+	background-color: #878787;
+	border: 2px;
+	color: white;
+	font-weight: bold;
+	justify-content: center;
+	align-items: center;
+	/*align-self: center;*/
 }

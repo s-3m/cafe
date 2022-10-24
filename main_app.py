@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user
 
 from db import get_db_connect
@@ -31,15 +31,15 @@ def index():
             log_user = UserLogin().create(person)
             login_user(log_user)
             if post == 'Официант':
-                return render_template('for_test.html', person=person.name)
+                return redirect(url_for("order_space"))
         flash("Неверный логин", "error")
     return render_template('index.html')
 
 
-@app.route("/log")
+@app.route("/order_space")
 @login_required
-def test():
-    return render_template('for_test.html')
+def order_space():
+    return render_template('menu_for_waiters.html')
 
 
 @app.route("/logout")
