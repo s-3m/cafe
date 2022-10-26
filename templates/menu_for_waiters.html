@@ -33,57 +33,25 @@
                         </ul>
                     </div>
                     <div class="catalog_items">
+                        {% for i in range(7) %}
                         <div class="arr1 ">
                             <div class="col">
-                                <div data-link="" class="menu_image">
+                                <div data-link="" class="menu_image col_item">
                                     <img data-lazy="1" alt="" src="#">
                                 </div>
-                                <div class="title1">
+                                <div class="title1 col_item">
                                     <h2><strong>Хлеб черный, 300 гр</strong></h2>
                                 </div>
-                                <div class="txt1">
+                                <div class="txt1 col_item">
                                     <p>В данном поле вы можете написать краткое описание товара, состоящее из 2-3 предложений или оформить в виде маркированного списка.</p>
                                 </div>
-                                <div class="price1">
+                                <div class="price1 col_item">
                                     <strong>39 руб.</strong>
                                 </div>
-                                <div class="btn_order" data-hcolor="#ff960b">Заказать</div>
+                                <div class="btn_order col_item" data-hcolor="#ff960b"><a href="" class="btn_link">Заказать</a></div>
                             </div>
                         </div>
-                        <div class="arr1 ">
-                            <div class="col">
-                                <div data-link="" class="menu_image">
-                                    <img data-lazy="1" alt="" src="#">
-                                </div>
-                                <div class="title1">
-                                    <h2><strong>Хлеб черный, 300 гр</strong></h2>
-                                </div>
-                                <div class="txt1">
-                                    <p>В данном поле вы можете написать краткое описание товара, состоящее из 2-3 предложений или оформить в виде маркированного списка.</p>
-                                </div>
-                                <div class="price1">
-                                    <strong>39 руб.</strong>
-                                </div>
-                                <div class="btn_order" data-hcolor="#ff960b">Заказать</div>
-                            </div>
-                        </div>
-                        <div class="arr1 ">
-                            <div class="col">
-                                <div data-link="" class="menu_image">
-                                    <img data-lazy="1" alt="" src="#">
-                                </div>
-                                <div class="title1">
-                                    <h2><strong>Хлеб черный, 300 гр</strong></h2>
-                                </div>
-                                <div class="txt1">
-                                    <p>В данном поле вы можете написать краткое описание товара, состоящее из 2-3 предложений или оформить в виде маркированного списка.</p>
-                                </div>
-                                <div class="price1">
-                                    <strong>39 руб.</strong>
-                                </div>
-                                <div class="btn_order" data-hcolor="#ff960b">Заказать</div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
