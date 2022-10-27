@@ -17,7 +17,7 @@
                     <div class="container">
                         <div class="title"><p><strong><span>М Е Н Ю</span><br></strong></p></div>
                         <div class="sub_title">
-                            <p><span>Выбирайте свежие фрукты и овощи по доступным ценам</span></p>
+                            <p><span>Заказ на кухню</span></p>
                         </div>
                     </div>
                 </div>
@@ -26,29 +26,28 @@
                 <div class="content_wrapp">
                     <div class="menu_left">
                         <ul>
-                            <li class="level0"><a href="#">Популярные</a></li>
-                            <li class="level0"><a href="#">Хлеб и выпечка</a></li>
-                            <li class="level0"><a href="#">Фрукты и овощи</a></li>
-                            <li class="level0"><a href="#">Молочная продукция</a></li>
+                            {% for item in category %}
+                                <li class="level0"><a href="/order_space/{{ item.id }}">{{ item }}</a></li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <div class="catalog_items">
-                        {% for i in range(7) %}
+                        {% for dish in dishes %}
                         <div class="arr1 ">
                             <div class="col">
                                 <div data-link="" class="menu_image col_item">
-                                    <img data-lazy="1" alt="" src="#">
+                                    <img data-lazy="1" alt="" src="{{ url_for('static', filename='img/') }}{{ dish.img }}">
                                 </div>
                                 <div class="title1 col_item">
-                                    <h2><strong>Хлеб черный, 300 гр</strong></h2>
+                                    <h2><strong>{{ dish }}</strong></h2>
                                 </div>
                                 <div class="txt1 col_item">
-                                    <p>В данном поле вы можете написать краткое описание товара, состоящее из 2-3 предложений или оформить в виде маркированного списка.</p>
+                                    <p>{{ dish.consist }}</p>
                                 </div>
                                 <div class="price1 col_item">
-                                    <strong>39 руб.</strong>
+                                    <strong>{{ dish.price }} руб.</strong>
                                 </div>
-                                <div class="btn_order col_item" data-hcolor="#ff960b"><a href="" class="btn_link">Заказать</a></div>
+                                <div class="btn_order col_item" data-hcolor="#ff960b"><a href="orders/{{ dish.id }}" class="btn_link">Заказать</a></div>
                             </div>
                         </div>
                         {% endfor %}

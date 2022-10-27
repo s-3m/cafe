@@ -1,5 +1,5 @@
 from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, Boolean
 
 Base = declarative_base()
 
@@ -29,3 +29,28 @@ class Staff(Base):
     def __repr__(self):
         return f'{self.name} - {self.post}'
 
+
+class Dish(Base):
+    __tablename__ = 'dish'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    name = Column(String(100), nullable=False)
+    consist = Column(String, nullable=False)
+    img = Column(String, nullable=False)
+    price = Column(DECIMAL, default=200.00)
+    category_id = Column(Integer, ForeignKey('category.id'))
+    availability = Column(Boolean, default=True)
+
+    def __repr__(self):
+        return self.name
+
+
+class Category(Base):
+    __tablename__ = 'category'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    name = Column(String(100), nullable=False)
+    dish = relationship('Dish', backref='category', lazy=True)
+
+    def __repr__(self):
+        return self.name
