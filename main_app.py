@@ -32,6 +32,7 @@ def index():
             login_user(log_user)
             if post == 'Официант':
                 return redirect(url_for("order_space"))
+                # return render_template('for_test.html')
         flash("Неверный логин", "error")
     return render_template('index.html')
 
