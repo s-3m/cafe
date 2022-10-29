@@ -40,6 +40,7 @@ class Dish(Base):
     price = Column(DECIMAL, default=200.00)
     category_id = Column(Integer, ForeignKey('category.id'))
     availability = Column(Boolean, default=True)
+    order = relationship('Order', backref='dish', lazy=True)
 
     def __repr__(self):
         return self.name
@@ -54,3 +55,11 @@ class Category(Base):
 
     def __repr__(self):
         return self.name
+
+
+class Order(Base):
+    __tablename__ = 'orders'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    item_id = Column(Integer, ForeignKey('dish.id'))
+    table_No = Column(Integer, nullable=False)

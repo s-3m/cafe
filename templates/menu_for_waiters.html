@@ -29,21 +29,32 @@
                     <a href="" class="top-menu__item">История заказов</a>
                 </div>
             </div>
-
-            <div class="table-number">
-                <form action="" method="post">
-
-                </form>
-            </div>
-
             <div class="container">
                 <div class="content_wrapp">
                     <div class="menu_left">
                         <ul>
+                            <li class="level10"><a href="/order_space">Все</a></li>
                             {% for item in category %}
                                 <li class="level0"><a href="/order_space/{{ item.id }}">{{ item }}</a></li>
                             {% endfor %}
                         </ul>
+                        <div class="confirm-order">
+                            <form action="" method="post">
+                                <div class="confirm-order__input">
+                                    <input type="number" class="table_n" name="table_number" placeholder="Номер стола">
+                                </div>
+                                <div class="btn-conf-order">
+                                    <button type="submit">OK</button>
+                                </div>
+                                {% if get_flashed_messages() %}
+                                    {% for type, msg in get_flashed_messages(True) %}
+                                        <div class="flash_msg {{ type }}">
+                                            {{ msg }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </form>
+                        </div>
                     </div>
                     <div class="catalog_items">
                         {% for dish in dishes %}
@@ -61,7 +72,7 @@
                                 <div class="price1 col_item">
                                     <strong>{{ dish.price }} р.</strong>
                                 </div>
-                                <div class="btn_order col_item" data-hcolor="#ff960b"><a href="orders/{{ dish.id }}" class="btn_link">Заказать</a></div>
+                                <div class="btn_order col_item" data-hcolor="#ff960b"><a href="{{ url_for('add_to_order', dish_id=dish.id) }}" class="btn_link">Заказать</a></div>
                             </div>
                         </div>
                         {% endfor %}
