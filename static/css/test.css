@@ -1,0 +1,45 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+.dot {
+  color: red;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 950px;
+  padding: 0 15px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar {
+  padding: 20px 0;
+}
+
+.navbar-flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 5vw;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4vw;
+  flex: 1;
+}
