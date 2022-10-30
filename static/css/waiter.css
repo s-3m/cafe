@@ -22,7 +22,13 @@
 	margin: 0 auto;
 	font-size: 20px;
 }
-
+.content {
+	display: flex;
+	justify-content: space-between;
+}
+.staff-statistic {
+	padding: 30px;
+}
 .top-menu__content {
 	display: flex;
 	justify-content: space-around;
@@ -32,9 +38,10 @@
 }
 
 .container {
+
 	padding: 30px;
 	max-width: 1460px;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
 }
 
 .section_inner {
@@ -60,6 +67,39 @@
 .menu_left li {
 	margin-bottom: 20px;
 	text-decoration: none;
+}
+.btn-conf-order {
+	margin: 10px 0;
+}
+.confirm-order {
+	width: 120px;
+	padding-top: 100px;
+}
+.confirm-order__input input {
+	width: 120px;
+	height: 30px;
+	border: 1px solid silver;
+	box-shadow: 0 2px 2px silver;
+}
+.btn-conf-order button {
+	cursor: pointer;
+	border: 1px solid silver;
+	background-color: orange;
+	border-radius: 26px;
+	box-shadow: 0 2px 2px black;
+	height: 30px;
+	width: 100%;
+}
+.flash_msg {
+	margin: 5px 0;
+}
+.success_flash {
+	background-color: greenyellow;
+	text-align: center;
+}
+.err_flash {
+	background-color: red;
+	text-align: center;
 }
 .catalog_items{
 	text-align: center;

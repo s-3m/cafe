@@ -1,20 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../static/css/test.css" media="screen">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/waiter.css" media="screen">
+    <script type="text/javascript" src="../static/js/jquery.min.js"></script>
 </head>
+
 <body>
-    <div class="main-container">
-        <div class="container">
-            <div class="header"></div>
-            <div class="main-content">
+    <div class="wrapper">
+        <div class="section_inner">
+            <div class="title">
+                <div class="content">
+                    <div class="container">
+                        <div class="title"><p><strong><span>М Е Н Ю</span><br></strong></p></div>
+                        <div class="sub_title">
+                            <p><span>Заказ на кухню</span></p>
+                        </div>
+                    </div>
+                    {% block waiter_stat %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="top-menu">
+                <div class="top-menu__content">
+                    <a href="" class="top-menu__item">Меню</a>
+                    <a href="{{ url_for('create_new_order') }}" class="top-menu__item">Новый заказ</a>
+                    <a href="" class="top-menu__item">История заказов</a>
+                    <a href="{{ url_for('logout') }}" class="top-menu__item">Выйти</a>
+
+                </div>
+            </div>
+            <div class="container">
                 {% block content %}
                 {% endblock %}
             </div>
-            <div class="footer"></div>
         </div>
+        <footer class="footer">
+            <div class="footer__text">Какой-то футер</div>
+        </footer>
     </div>
 </body>
 </html>
