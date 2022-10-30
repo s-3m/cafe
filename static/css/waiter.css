@@ -22,7 +22,13 @@
 	margin: 0 auto;
 	font-size: 20px;
 }
-
+.content {
+	display: flex;
+	justify-content: space-between;
+}
+.staff-statistic {
+	padding: 30px;
+}
 .top-menu__content {
 	display: flex;
 	justify-content: space-around;
@@ -32,9 +38,10 @@
 }
 
 .container {
+
 	padding: 30px;
 	max-width: 1460px;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
 }
 
 .section_inner {

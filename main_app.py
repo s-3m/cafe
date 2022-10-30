@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from flask_login import LoginManager, login_user, login_required, logout_user
 
 from db import get_db_connect
-from models.model import Staff, Category, Dish, Order
+from models.model import Staff, Category, Dish, Order, OrderItems
 from userlogin import UserLogin
 
 app = Flask(__name__)
@@ -34,10 +34,24 @@ def index():
             login_user(log_user)
             if post == 'официант':
                 session['user_name'] = person.name
-                return redirect(url_for("order_space"))
+                return redirect(url_for("waiter_start"))
         flash("Неверный логин", "error")
 
     return render_template('index.html')
+
+
+@app.route('/waiter_start')
+def waiter_start():
+    staff = sess.query(Staff).filter_by(id=int(session.get('_user_id'))).one()
+    return render_template('waiter_start.html', staff=staff)
+
+
+@app.route('/new_order')
+def create_new_order():
+    # new_order = Order(staff_id=int(session.get('_user_id')))
+    # sess.add(new_order)
+    # sess.commit()
+    return redirect(url_for('order_space'))
 
 
 @app.route("/order_space/<cat_id>", methods=['POST', 'GET'])
@@ -57,14 +71,13 @@ def order_space(cat_id=None):
         dishes = sess.query(Dish).filter_by(category_id=int(cat_id))
     else:
         dishes = sess.query(Dish).all()
-    pprint(session)
     category = sess.query(Category).all()
-    return render_template('menu_for_waiters.html', category=category, dishes=dishes)
+    staff = sess.query(Staff).filter_by(id=int(session.get('_user_id'))).one()
+    return render_template('menu_for_waiters.html', category=category, dishes=dishes, staff=staff)
 
 
 @app.route("/order_space/orders/<dish_id>")
 def add_to_order(dish_id):
-    print(request.referrer)
     try:
         check_category = int(request.referrer[-1])
     except ValueError:
@@ -73,26 +86,28 @@ def add_to_order(dish_id):
         session['order'] = []
     session.modified = True
     session['order'].append(dish_id)
-    print(session['order'])
     return redirect(url_for('order_space', cat_id=check_category))
 
 
 @app.route("/confirm_order/<tbl_num>")
 def confirm_order(tbl_num):
+    new_order = Order(staff_id=int(session.get('_user_id')), table_No=tbl_num)
+    sess.add(new_order)
+    sess.commit()
     for i in session.get('order'):
-        new_order = Order(item_id=i, table_No=tbl_num)
-        sess.add(new_order)
+        new_item = OrderItems(item_id=i, order_id=new_order.id)
+        sess.add(new_item)
     sess.commit()
     del session['order']
     flash('Отправлено', 'success_flash')
-    return redirect(url_for('order_space'))
+    return redirect(url_for('waiter_start'))
 
 
 @app.route("/logout")
 def logout():
     logout_user()
     session.clear()
-    return render_template('index.html')
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
