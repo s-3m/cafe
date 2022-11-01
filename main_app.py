@@ -29,7 +29,7 @@ def index():
         except:
             person = None
         if person:
-            post = person.post.name
+            post = person.post.name.lower()
             log_user = UserLogin().create(person)
             login_user(log_user)
             if post == 'официант':
@@ -91,12 +91,18 @@ def add_to_order(dish_id):
 
 @app.route("/confirm_order/<tbl_num>")
 def confirm_order(tbl_num):
-    new_order = Order(staff_id=int(session.get('_user_id')), table_No=tbl_num)
-    sess.add(new_order)
-    sess.commit()
+    try:
+        new_order = Order(staff_id=int(session.get('_user_id')), table_No=tbl_num, status=7)
+        sess.add(new_order)
+        sess.commit()
+    except:
+        print('Ошибка добавления заказа в БД')
     for i in session.get('order'):
-        new_item = OrderItems(item_id=i, order_id=new_order.id)
-        sess.add(new_item)
+        try:
+            new_item = OrderItems(item_id=i, order_id=new_order.id)
+            sess.add(new_item)
+        except:
+            print(f'Ошибка добавления позиции "{i}" в заказ')
     sess.commit()
     del session['order']
     flash('Отправлено', 'success_flash')

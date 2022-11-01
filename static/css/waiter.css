@@ -7,7 +7,10 @@
 	list-style-type: none;
 	text-decoration: none;
 }
-
+.title {
+	max-width: 1460px;
+	margin: 0 auto;
+}
 .wrapper {
     min-height: 100vh;
 	overflow: hidden;
@@ -38,10 +41,13 @@
 }
 
 .container {
-
 	padding: 30px;
 	max-width: 1460px;
-	/*margin: 0 auto;*/
+	margin: 0 auto;
+}
+.top-container {
+	padding: 30px;
+	max-width: 1460px;
 }
 
 .section_inner {

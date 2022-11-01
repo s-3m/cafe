@@ -1,5 +1,5 @@
 from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, Boolean, Sequence
+from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, Boolean, Sequence, Identity
 
 Base = declarative_base()
 
@@ -61,11 +61,20 @@ class Order(Base):
     __tablename__ = 'orders'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
-    number = Column(Integer, autoincrement=True)
+    number = Column(Integer, Identity(start=1), autoincrement=True)
     table_No = Column(Integer, nullable=False)
     staff_id = Column(Integer, ForeignKey('staff.id'))
+    status = Column(Integer, ForeignKey('status.id'))
 
     order = relationship('Staff', backref='orders', lazy=True)
+    status_rel = relationship('Status', backref='orders', lazy=True)
+
+
+class Status(Base):
+    __tablename__ = 'status'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    name = Column(String(10))
 
 
 class OrderItems(Base):
