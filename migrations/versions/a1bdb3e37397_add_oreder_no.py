@@ -7,7 +7,8 @@ Create Date: 2022-10-31 16:17:20.240245
 """
 from alembic import op
 import sqlalchemy as sa
-
+from sqlalchemy import text
+from sqlalchemy.schema import Sequence, CreateSequence
 
 
 # revision identifiers, used by Alembic.
@@ -18,7 +19,7 @@ depends_on = None
 
 
 def upgrade() -> None:
-    op.add_column('orders', sa.Column('order_number', sa.Integer(), autoincrement=True))
+    op.execute(text("""ALTER TABLE orders ADD number SERIAL"""))
 
 
 def downgrade() -> None:
