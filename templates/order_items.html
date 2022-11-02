@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="order_items-content">
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Заказ № {{ order_items.0.order_num }}</th></tr>
+            <tr>
+                <th class="first_head_th" scope="col">#</th>
+                <th scope="col">Номер заказа</th>
+                <th scope="col">Номер стола</th>
+                <th scope="col">Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ order.number }}</td>
+                    <td>{{ order.table_No }}</td>
+                    <td>{{ order.status_rel.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

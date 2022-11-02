@@ -82,6 +82,6 @@ class OrderItems(Base):
 
     id = Column(Integer, autoincrement=True, primary_key=True)
     item_id = Column(Integer, ForeignKey('dish.id'))
-    order_id = Column(Integer, ForeignKey('orders.id'))
+    order_num = Column(Integer, ForeignKey('orders.number'))
 
     order_items = relationship('Order', backref='order_items', lazy=True)

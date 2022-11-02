@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from flask_login import LoginManager, login_user, login_required, logout_user
 
 from db import get_db_connect
-from models.model import Staff, Category, Dish, Order, OrderItems
+from models.model import Staff, Category, Dish, Order, OrderItems, Status
 from userlogin import UserLogin
 
 app = Flask(__name__)
@@ -99,7 +99,7 @@ def confirm_order(tbl_num):
         print('Ошибка добавления заказа в БД')
     for i in session.get('order'):
         try:
-            new_item = OrderItems(item_id=i, order_id=new_order.id)
+            new_item = OrderItems(item_id=i, order_num=new_order.number)
             sess.add(new_item)
         except:
             print(f'Ошибка добавления позиции "{i}" в заказ')
@@ -107,6 +107,18 @@ def confirm_order(tbl_num):
     del session['order']
     flash('Отправлено', 'success_flash')
     return redirect(url_for('waiter_start'))
+
+
+@app.route('/history')
+def order_history():
+    orders = sess.query(Order).filter_by(staff_id=int(session.get('_user_id'))).all()
+    return render_template('order_history.html', orders=orders)
+
+
+@app.route('/order/<order_id>')
+def order_items(order_id):
+    items = sess.query(OrderItems).filter_by(order_num=order_id).all()
+    return render_template('order_items.html', order_items=items)
 
 
 @app.route("/logout")

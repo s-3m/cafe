@@ -40,7 +40,7 @@
 	text-decoration: none;
 }
 
-.container {
+.own-container {
 	padding: 30px;
 	max-width: 1460px;
 	margin: 0 auto;
@@ -168,3 +168,9 @@
 	/*align-self: center;*/
 }
 
+.table tr {
+	text-align: center;
+}
+th:first-child {
+	text-align: left;
+}
