@@ -35,7 +35,7 @@ def index():
             if post == 'официант':
                 session['user_name'] = person.name
                 return redirect(url_for("waiter_start"))
-        flash("Неверный логин", "error")
+        flash("Неверный логин", "alert alert-danger")
 
     return render_template('index.html')
 
@@ -61,9 +61,9 @@ def order_space(cat_id=None):
     if request.method == "POST":
         table_num = request.form['table_number']
         if not session.get('order'):
-            flash('Пустой заказ', 'err_flash')
+            flash('Пустой заказ', 'alert alert-danger')
         elif not table_num:
-            flash('Не введен номер стола', 'err_flash')
+            flash('Не введен номер стола', 'alert alert-danger')
         else:
             return redirect(url_for('confirm_order', tbl_num=table_num))
 
@@ -105,7 +105,7 @@ def confirm_order(tbl_num):
             print(f'Ошибка добавления позиции "{i}" в заказ')
     sess.commit()
     del session['order']
-    flash('Отправлено', 'success_flash')
+    flash('Отправлено', 'alert alert-success')
     return redirect(url_for('waiter_start'))
 
 
@@ -118,7 +118,7 @@ def order_history():
 @app.route('/order/<order_id>')
 def order_items(order_id):
     items = sess.query(OrderItems).filter_by(order_num=order_id).all()
-    return render_template('order_items.html', order_items=items)
+    return render_template('order_items.html', items=items)
 
 
 @app.route("/logout")

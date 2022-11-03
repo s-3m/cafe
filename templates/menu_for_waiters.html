@@ -20,14 +20,14 @@
             <div class="confirm-order">
                 <form action="" method="post">
                     <div class="confirm-order__input">
-                        <input type="number" class="table_n" name="table_number" placeholder="Номер стола">
+                        <input type="number" class="form-control" name="table_number" placeholder="Стол">
                     </div>
                     <div class="btn-conf-order">
-                        <button type="submit">OK</button>
+                        <button class="btn btn-warning" type="submit">OK</button>
                     </div>
                     {% if get_flashed_messages() %}
                         {% for type, msg in get_flashed_messages(True) %}
-                            <div class="flash_msg {{ type }}">
+                            <div class="flash_msg {{ type }}" style="padding: 5px">
                                 {{ msg }}
                             </div>
                         {% endfor %}

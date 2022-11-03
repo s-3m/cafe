@@ -69,6 +69,12 @@ class Order(Base):
     order = relationship('Staff', backref='orders', lazy=True)
     status_rel = relationship('Status', backref='orders', lazy=True)
 
+    def get_total_cost(self):
+        total_cost = 0
+        for i in self.order_items:
+            total_cost += i.dish.price
+        return total_cost
+
 
 class Status(Base):
     __tablename__ = 'status'
