@@ -2,6 +2,11 @@
 
 {% block content %}
     <div class="staff-statistic">
+        {% for type, msg in get_flashed_messages(True) %}
+            <div class="flash_msg {{ type }}">
+                {{ msg }}
+            </div>
+        {% endfor %}
         Привет, {{ staff.name }}!
         <br>
         У вас сегодня {{ staff.orders|length }} заказов!

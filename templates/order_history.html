@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="order-history">
+        <div class="history-table">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="first_head_th" scope="col">#</th>
+                  <th scope="col">Номер заказа</th>
+                  <th scope="col">Номер стола</th>
+                  <th scope="col">Статус</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in orders %}
+                    <tr>
+                      <th scope="row">{{ loop.index }}</th>
+                      <td><a href="{{ url_for('order_items', order_id=order.number) }}">{{ order.number }}</a></td>
+                      <td>{{ order.table_No }}</td>
+                      <td>{{ order.status_rel.name }}</td>
+                    </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

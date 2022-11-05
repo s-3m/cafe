@@ -7,7 +7,10 @@
 	list-style-type: none;
 	text-decoration: none;
 }
-
+.title {
+	max-width: 1460px;
+	margin: 0 auto;
+}
 .wrapper {
     min-height: 100vh;
 	overflow: hidden;
@@ -37,11 +40,14 @@
 	text-decoration: none;
 }
 
-.container {
-
+.own-container {
 	padding: 30px;
 	max-width: 1460px;
-	/*margin: 0 auto;*/
+	margin: 0 auto;
+}
+.top-container {
+	padding: 30px;
+	max-width: 1460px;
 }
 
 .section_inner {
@@ -82,17 +88,11 @@
 	box-shadow: 0 2px 2px silver;
 }
 .btn-conf-order button {
-	cursor: pointer;
-	border: 1px solid silver;
-	background-color: orange;
-	border-radius: 26px;
 	box-shadow: 0 2px 2px black;
 	height: 30px;
 	width: 100%;
 }
-.flash_msg {
-	margin: 5px 0;
-}
+
 .success_flash {
 	background-color: greenyellow;
 	text-align: center;
@@ -162,3 +162,23 @@
 	/*align-self: center;*/
 }
 
+.table tr {
+	text-align: center;
+}
+th:first-child {
+	text-align: left;
+}
+table img {
+	max-width: 150px;
+}
+.order-items-title {
+	text-align: center;
+	margin-bottom: 20px;
+	font-weight: bold;
+	font-size: 20px;
+}
+.total-price {
+	font-size: 16px;
+	font-weight: bold;
+	text-align: right;
+}

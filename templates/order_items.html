@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="order_items-content">
+    <div class="order-items-title">Заказ № {{ items.0.order_num }}</div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="first_head_th" scope="col">#</th>
+                <th scope="col">Наименование</th>
+                <th scope="col">Фото</th>
+                <th scope="col">Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ item.dish.name }}</td>
+                    <td><img data-lazy="1" src="{{ url_for('static', filename='img/') }}{{ item.dish.img }}"></td>
+                    <td>{{ item.dish.price }} руб.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="total-price">Итого: {{ items.0.order_items.get_total_cost() }} руб.</div>
+</div>
+{% endblock %}

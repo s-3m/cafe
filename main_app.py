@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from flask_login import LoginManager, login_user, login_required, logout_user
 
 from db import get_db_connect
-from models.model import Staff, Category, Dish, Order, OrderItems
+from models.model import Staff, Category, Dish, Order, OrderItems, Status
 from userlogin import UserLogin
 
 app = Flask(__name__)
@@ -29,13 +29,13 @@ def index():
         except:
             person = None
         if person:
-            post = person.post.name
+            post = person.post.name.lower()
             log_user = UserLogin().create(person)
             login_user(log_user)
             if post == 'официант':
                 session['user_name'] = person.name
                 return redirect(url_for("waiter_start"))
-        flash("Неверный логин", "error")
+        flash("Неверный логин", "alert alert-danger")
 
     return render_template('index.html')
 
@@ -61,9 +61,9 @@ def order_space(cat_id=None):
     if request.method == "POST":
         table_num = request.form['table_number']
         if not session.get('order'):
-            flash('Пустой заказ', 'err_flash')
+            flash('Пустой заказ', 'alert alert-danger')
         elif not table_num:
-            flash('Не введен номер стола', 'err_flash')
+            flash('Не введен номер стола', 'alert alert-danger')
         else:
             return redirect(url_for('confirm_order', tbl_num=table_num))
 
@@ -91,16 +91,34 @@ def add_to_order(dish_id):
 
 @app.route("/confirm_order/<tbl_num>")
 def confirm_order(tbl_num):
-    new_order = Order(staff_id=int(session.get('_user_id')), table_No=tbl_num)
-    sess.add(new_order)
-    sess.commit()
+    try:
+        new_order = Order(staff_id=int(session.get('_user_id')), table_No=tbl_num, status=7)
+        sess.add(new_order)
+        sess.commit()
+    except:
+        print('Ошибка добавления заказа в БД')
     for i in session.get('order'):
-        new_item = OrderItems(item_id=i, order_id=new_order.id)
-        sess.add(new_item)
+        try:
+            new_item = OrderItems(item_id=i, order_num=new_order.number)
+            sess.add(new_item)
+        except:
+            print(f'Ошибка добавления позиции "{i}" в заказ')
     sess.commit()
     del session['order']
-    flash('Отправлено', 'success_flash')
+    flash('Отправлено', 'alert alert-success')
     return redirect(url_for('waiter_start'))
+
+
+@app.route('/history')
+def order_history():
+    orders = sess.query(Order).filter_by(staff_id=int(session.get('_user_id'))).all()
+    return render_template('order_history.html', orders=orders)
+
+
+@app.route('/order/<order_id>')
+def order_items(order_id):
+    items = sess.query(OrderItems).filter_by(order_num=order_id).all()
+    return render_template('order_items.html', items=items)
 
 
 @app.route("/logout")

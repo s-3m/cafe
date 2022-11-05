@@ -1,5 +1,5 @@
 from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, Boolean
+from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, Boolean, Sequence, Identity
 
 Base = declarative_base()
 
@@ -61,10 +61,26 @@ class Order(Base):
     __tablename__ = 'orders'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
+    number = Column(Integer, Identity(start=1), autoincrement=True)
     table_No = Column(Integer, nullable=False)
     staff_id = Column(Integer, ForeignKey('staff.id'))
+    status = Column(Integer, ForeignKey('status.id'))
 
     order = relationship('Staff', backref='orders', lazy=True)
+    status_rel = relationship('Status', backref='orders', lazy=True)
+
+    def get_total_cost(self):
+        total_cost = 0
+        for i in self.order_items:
+            total_cost += i.dish.price
+        return total_cost
+
+
+class Status(Base):
+    __tablename__ = 'status'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    name = Column(String(10))
 
 
 class OrderItems(Base):
@@ -72,6 +88,6 @@ class OrderItems(Base):
 
     id = Column(Integer, autoincrement=True, primary_key=True)
     item_id = Column(Integer, ForeignKey('dish.id'))
-    order_id = Column(Integer, ForeignKey('orders.id'))
+    order_num = Column(Integer, ForeignKey('orders.number'))
 
     order_items = relationship('Order', backref='order_items', lazy=True)
