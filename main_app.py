@@ -1,6 +1,11 @@
-from pprint import pprint
+import time
 
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+# from gevent import monkey; monkey.patch_all()
+# from gevent.pywsgi import WSGIServer
+from pprint import pprint
+from time import sleep
+
+from flask import Flask, render_template, request, flash, redirect, url_for, session, Response
 from flask_login import LoginManager, login_user, login_required, logout_user
 
 from db import get_db_connect
@@ -12,6 +17,10 @@ app = Flask(__name__)
 app.secret_key = b'_roman_1985_gmc'
 login_manager = LoginManager(app)
 sess = get_db_connect()
+
+serv_msg = {
+
+}
 
 
 @login_manager.user_loader
@@ -91,21 +100,22 @@ def add_to_order(dish_id):
 
 @app.route("/confirm_order/<tbl_num>")
 def confirm_order(tbl_num):
+    new_order = Order(staff_id=int(session.get('_user_id')), table_No=tbl_num, status=7)
     try:
-        new_order = Order(staff_id=int(session.get('_user_id')), table_No=tbl_num, status=7)
         sess.add(new_order)
         sess.commit()
     except:
         print('Ошибка добавления заказа в БД')
     for i in session.get('order'):
+        new_item = OrderItems(item_id=i, order_num=new_order.number)
         try:
-            new_item = OrderItems(item_id=i, order_num=new_order.number)
             sess.add(new_item)
         except:
             print(f'Ошибка добавления позиции "{i}" в заказ')
     sess.commit()
     del session['order']
     flash('Отправлено', 'alert alert-success')
+    serv_msg['msg'] = 'sssssssssssssssssssssssssssssssssssssssss'
     return redirect(url_for('waiter_start'))
 
 
@@ -128,5 +138,17 @@ def logout():
     return redirect(url_for('index'))
 
 
+def data_stream():
+    while True:
+        yield f"data: {serv_msg.get('msg')}\n\n"
+        time.sleep(10)
+        serv_msg.clear()
+
+
+@app.route('/listen')
+def listen():
+    return Response(data_stream(), mimetype='text/event-stream')
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
