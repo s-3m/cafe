@@ -5,10 +5,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         setTimeout(() => {element.remove()}, 3000)
     }
 
-   let source = new EventSource('/listen');
-    source.addEventListener("message", function (e) {
-        if (e.data !== 'None') {console.log(e.data)}
-    }, false)
+   // let source = new EventSource('/listen');
+   //  source.addEventListener("message", function (e) {
+   //      if (e.data !== 'None') {console.log(e.data)}
+   //  }, false)
 
 });
 

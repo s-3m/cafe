@@ -1,7 +1,5 @@
 import time
 
-# from gevent import monkey; monkey.patch_all()
-# from gevent.pywsgi import WSGIServer
 from pprint import pprint
 from time import sleep
 
@@ -57,9 +55,6 @@ def waiter_start():
 
 @app.route('/new_order')
 def create_new_order():
-    # new_order = Order(staff_id=int(session.get('_user_id')))
-    # sess.add(new_order)
-    # sess.commit()
     return redirect(url_for('order_space'))
 
 
