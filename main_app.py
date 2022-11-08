@@ -3,7 +3,7 @@ import time
 from pprint import pprint
 from time import sleep
 
-from flask import Flask, render_template, request, flash, redirect, url_for, session, Response
+from flask import Flask, render_template, request, flash, redirect, url_for, session, Response, make_response, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user
 
 from db import get_db_connect
@@ -90,6 +90,7 @@ def add_to_order(dish_id):
         session['order'] = []
     session.modified = True
     session['order'].append(dish_id)
+
     return redirect(url_for('order_space', cat_id=check_category))
 
 
@@ -110,7 +111,6 @@ def confirm_order(tbl_num):
     sess.commit()
     del session['order']
     flash('Отправлено', 'alert alert-success')
-    serv_msg['msg'] = 'sssssssssssssssssssssssssssssssssssssssss'
     return redirect(url_for('waiter_start'))
 
 
@@ -124,6 +124,18 @@ def order_history():
 def order_items(order_id):
     items = sess.query(OrderItems).filter_by(order_num=order_id).all()
     return render_template('order_items.html', items=items)
+
+
+@app.route('/order-details')
+def order_details():
+    items_id: list = session.get('order')
+    items = []
+    for i in items_id:
+        item = sess.query(Dish).filter_by(id=i).one()
+        item_dict = {'name': item.name, 'price': item.price}
+        items.append(item_dict)
+    print(items)
+    return items
 
 
 @app.route("/logout")
