@@ -33,9 +33,32 @@
                         {% endfor %}
                     {% endif %}
                 </form>
+                <div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="bbb btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      Посмотреть
+                    </button>
+                </div>
             </div>
         </div>
         <div class="catalog_items">
+                <!-- Modal -->
+                <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Состав заказа</h1><span class="modal-order-number">№</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        ...
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             {% for dish in dishes %}
             <div class="arr1 ">
                 <div class="col">
@@ -57,4 +80,23 @@
             {% endfor %}
         </div>
     </div>
+{% endblock %}
+{% block script %}
+    <script>
+        let btn = document.querySelector('.bbb')
+        btn.addEventListener('click', function () {
+
+            fetch(`${window.origin}/order-details`)
+                .then(function (response)  {
+                    response.json().then(function (data) {
+                        console.log(data)
+                        let modal_body = document.querySelector('.modal-body')
+                        modal_body.innerHTML = ''
+                        for (let i in data) {
+                            modal_body.innerHTML += `<p>${data[i]['name']} -- ${data[i]['price']}руб.</p>`
+                        }
+                    })
+                })
+        })
+    </script>
 {% endblock %}
