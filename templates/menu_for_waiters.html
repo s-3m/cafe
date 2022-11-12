@@ -51,7 +51,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        ...
+
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -92,11 +92,27 @@
                         console.log(data)
                         let modal_body = document.querySelector('.modal-body')
                         modal_body.innerHTML = ''
+                        console.log(data)
                         for (let i in data) {
-                            modal_body.innerHTML += `<p>${data[i]['name']} -- ${data[i]['price']}руб.</p>`
+                            modal_body.innerHTML +=
+                                `<p class="order-item-${i}">${data[i]['name']} -- ${data[i]['price']}руб. x <span class="item-quantity-${i}">${data[i]['quantity']}</span>шт.
+                                    <a href="#" class="delete-item delete-${i}" style="color: Tomato"><i class="fa-regular fa-circle-xmark"></i></a></p>`
                         }
+                    }).then(function () {
+                       let btn_del = document.querySelectorAll('.delete-item')
+                       btn_del.forEach(element => element.addEventListener('click', function() {
+                           let dish_id = parseInt(element.classList[1].substring(element.classList[1].length - 1))
+                           console.log(dish_id)
+                            let quantity = document.querySelector('.item-quantity')
+                            if (quantity.textContent > 1) {quantity.textContent = `${parseInt(quantity.textContent) - 1}`}
+                            else {element.closest('p').remove()}
+                           fetch(`${window.origin}/order_space/orders/${dish_id}`)
+                       }))
+
                     })
                 })
+
         })
+
     </script>
 {% endblock %}

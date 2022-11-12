@@ -82,16 +82,25 @@ def order_space(cat_id=None):
 
 @app.route("/order_space/orders/<dish_id>")
 def add_to_order(dish_id):
-    try:
-        check_category = int(request.referrer[-1])
-    except ValueError:
-        check_category = None
-    if not session.get('order'):
-        session['order'] = []
-    session.modified = True
-    session['order'].append(dish_id)
+    if len(request.accept_mimetypes) <= 1:
+        print(session.get('order'))
+        session['order'].remove(dish_id)
+        session.modified = True
+        print(session.get('order'))
 
-    return redirect(url_for('order_space', cat_id=check_category))
+        return make_response('OK', 200)
+    else:
+        try:
+            check_category = int(request.referrer[-1])
+        except ValueError:
+            check_category = None
+        if not session.get('order'):
+            session['order'] = []
+        session.modified = True
+        session['order'].append(dish_id)
+        print(session['order'])
+
+        return redirect(url_for('order_space', cat_id=check_category))
 
 
 @app.route("/confirm_order/<tbl_num>")
@@ -129,13 +138,16 @@ def order_items(order_id):
 @app.route('/order-details')
 def order_details():
     items_id: list = session.get('order')
-    items = []
-    for i in items_id:
-        item = sess.query(Dish).filter_by(id=i).one()
-        item_dict = {'name': item.name, 'price': item.price}
-        items.append(item_dict)
-    print(items)
-    return items
+    items_dict = {}
+    if items_id:
+        for i in items_id:
+            item = sess.query(Dish).filter_by(id=i).one()
+            if i in items_dict:
+                items_dict[i]['quantity'] += 1
+            else:
+                items_dict[i] = {'name': item.name, 'price': item.price, 'quantity': 1}
+        return items_dict
+    return items_dict
 
 
 @app.route("/logout")

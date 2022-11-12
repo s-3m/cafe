@@ -61,7 +61,7 @@ class Order(Base):
     __tablename__ = 'orders'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
-    number = Column(Integer, Identity(start=1), autoincrement=True)
+    number = Column(Integer, Identity(start=1), autoincrement=True, unique=True, index=True)
     table_No = Column(Integer, nullable=False)
     staff_id = Column(Integer, ForeignKey('staff.id'))
     status = Column(Integer, ForeignKey('status.id'))
