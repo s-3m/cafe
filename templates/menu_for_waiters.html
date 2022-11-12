@@ -89,10 +89,8 @@
             fetch(`${window.origin}/order-details`)
                 .then(function (response)  {
                     response.json().then(function (data) {
-                        console.log(data)
                         let modal_body = document.querySelector('.modal-body')
                         modal_body.innerHTML = ''
-                        console.log(data)
                         for (let i in data) {
                             modal_body.innerHTML +=
                                 `<p class="order-item-${i}">${data[i]['name']} -- ${data[i]['price']}руб. x <span class="item-quantity-${i}">${data[i]['quantity']}</span>шт.
@@ -102,9 +100,8 @@
                        let btn_del = document.querySelectorAll('.delete-item')
                        btn_del.forEach(element => element.addEventListener('click', function() {
                            let dish_id = parseInt(element.classList[1].substring(element.classList[1].length - 1))
-                           console.log(dish_id)
-                            let quantity = document.querySelector('.item-quantity')
-                            if (quantity.textContent > 1) {quantity.textContent = `${parseInt(quantity.textContent) - 1}`}
+                            let quantity = document.querySelector(`.item-quantity-${dish_id}`)
+                            if (quantity.textContent > 1) {quantity.textContent -- }
                             else {element.closest('p').remove()}
                            fetch(`${window.origin}/order_space/orders/${dish_id}`)
                        }))
